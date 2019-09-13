@@ -4,25 +4,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com</groupId>
-	<artifactId>cucumber-simple</artifactId>
+	<artifactId>cucumber-simple-august</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>cucumber-simple</name>
+	<name>cucumber-simple-august</name>
 
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<!-- <cucumber.version>4.2.6</cucumber.version> -->
 		<cucumber.version>4.7.1</cucumber.version>
-		<selenium.version>3.141.59</selenium.version>
+		<selenium.version>3.9.1</selenium.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<webdriver.driver>chrome</webdriver.driver>
+		<serenity.version>1.5.0-rc.1</serenity.version>
 	</properties>
 
 	<dependencies>
-
-		<!-- <dependency> <groupId>org.seleniumhq.selenium</groupId> <artifactId>selenium-java</artifactId> 
-			<version>${selenium.version}</version> </dependency> -->
-
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -63,9 +60,54 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.mifmif</groupId>
+			<artifactId>generex</artifactId>
+			<version>0.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-core</artifactId>
+			<version>${serenity.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 
 	</dependencies>
-
 	<build>
 		<plugins>
 
@@ -74,10 +116,16 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.0</version>
 				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
 					<parallel>methods</parallel>
 					<threadCount>2</threadCount>
+					<systemPropertyVariables>
+						<webdriver.driver>${webdriver.driver}</webdriver.driver>
+						<webdriver.chrome.driver>${webdriver.chrome.path}</webdriver.chrome.driver>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
+
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -89,6 +137,33 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<version>3.15.0</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+
+							<projectName>Where is What Service</projectName>
+							<!-- optional, per documentation set this to "true" to bypass generation 
+								of Cucumber Reports entirely, defaults to false if not specified -->
+							<skip>false</skip>
+							<!-- output directory for the generated report -->
+							<outputDirectory>${project.build.directory}/Cucumber-JVM</outputDirectory>
+							<cucumberOutput>${project.build.directory}/cucumber-html-reports/cucumber.json</cucumberOutput>
+							<enableFlashCharts>true</enableFlashCharts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
 		</plugins>
 	</build>
 </project>

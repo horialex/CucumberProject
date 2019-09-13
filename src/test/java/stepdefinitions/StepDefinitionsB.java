@@ -27,9 +27,7 @@ public class StepDefinitionsB {
 	@Given("^Step definition D$")
 	public void stepD() throws InterruptedException {
 		Thread.sleep(500);
-		System.out.println("Step C");
 		User expectedUser = context.get("user");
-		System.out.println(expectedUser.toString());
 		Assert.assertTrue("The age is not correct", expectedUser.getAge() == 30);
 		Assert.assertTrue("The name is not correct", expectedUser.getName().contentEquals("Hori"));
 	}
