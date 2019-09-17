@@ -14,19 +14,15 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.google.inject.Inject;
-
 import config.DriverManager;
-import injector.AppInjector;
 
 public class AbstractPage {
-	@Inject
 	DriverManager driverManager;
 	protected WebDriver driver;
 	private WebDriverWait wait;
 
 	public AbstractPage() {
-		AppInjector.getInjector().injectMembers(this);
+		driverManager = DriverManager.getInstance();
 		this.driver = driverManager.getWebDriver();
 		PageFactory.initElements(driver, this);
 		this.wait = new WebDriverWait(this.driver, 20);

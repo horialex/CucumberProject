@@ -13,12 +13,7 @@ import io.cucumber.java.Before;
 
 public class Hooks {
 	
-	public Hooks() {
-		AppInjector.getInjector().injectMembers(this);
-	}
-	
-	@Inject
-	DriverManager driverManager;
+	DriverManager driverManager = DriverManager.getInstance();
 
 	@Before
 	public void setup() throws Exception {

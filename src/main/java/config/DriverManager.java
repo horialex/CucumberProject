@@ -13,12 +13,26 @@ import com.google.inject.Singleton;
 import constants.EnvironmentConstants;
 import constants.SetupConstants;
 
-@Singleton
 public class DriverManager {
 
 	private WebDriver driver = null;
 	private String browser = System.getProperty("browser");
 	private String host = EnvironmentConstants.BASE_URL;
+
+	private DriverManager() {
+
+	}
+
+	private static ThreadLocal<DriverManager> _threadLocal = new ThreadLocal<DriverManager>() {
+		@Override
+		protected DriverManager initialValue() {
+			return new DriverManager();
+		}
+	};
+
+	public static DriverManager getInstance() {
+		return _threadLocal.get();
+	}
 
 	public void initDriver() throws Exception {
 
