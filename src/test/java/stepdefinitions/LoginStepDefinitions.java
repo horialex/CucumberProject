@@ -18,18 +18,11 @@ public class LoginStepDefinitions {
 	private HomePage homePage;
 	@Inject
 	private LoginPage loginPage;
-	@Inject 
-	private HeaderPage headerPage;
 	
 	public LoginStepDefinitions() {
 		AppInjector.getInjector().injectMembers(this);
 	}
 	
-	@Given("^I open home page$")
-	public void openHomePage() {
-		homePage.navigateToHomePage();
-	}
-
 	@Given("^I login as an admin using api call$")
 	public void loginAsAdmin() throws Exception {
 		apiLoginService.loginAsAdmin();

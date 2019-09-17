@@ -8,18 +8,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.google.inject.Singleton;
+
 import constants.EnvironmentConstants;
 import constants.SetupConstants;
 
+@Singleton
 public class DriverManager {
 
-	private static WebDriver driver = null;
-	private static String browser = System.getProperty("browser");
-	private static String host = EnvironmentConstants.BASE_URL;
-	
-	public static void initDriver() throws Exception {
+	private WebDriver driver = null;
+	private String browser = System.getProperty("browser");
+	private String host = EnvironmentConstants.BASE_URL;
+
+	public void initDriver() throws Exception {
+
 		System.out.println("Opening browser [" + browser.toUpperCase() + "]...");
-		
+
 		if (browser.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", SetupConstants.FIREFOX_DRIVER_PATH);
 			driver = new FirefoxDriver();
@@ -40,11 +44,11 @@ public class DriverManager {
 
 	}
 
-	public static WebDriver getWebDriver() {
+	public WebDriver getWebDriver() {
 		return driver;
 	}
 
-	public static void closeDriver() {
+	public void closeDriver() {
 		System.out.println(
 				"\n\n\n==========================================================================================="
 						+ "\n ============================= TEST ENDED - Closing browser ==============================\n");

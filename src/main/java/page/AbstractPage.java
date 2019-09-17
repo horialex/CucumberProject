@@ -14,19 +14,24 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import config.DriverManager;
+import com.google.inject.Inject;
 
-public class AbstractPage  {
-	
+import config.DriverManager;
+import injector.AppInjector;
+
+public class AbstractPage {
+	@Inject
+	DriverManager driverManager;
 	protected WebDriver driver;
 	private WebDriverWait wait;
-	
+
 	public AbstractPage() {
-		this.driver = DriverManager.getWebDriver();
+		AppInjector.getInjector().injectMembers(this);
+		this.driver = driverManager.getWebDriver();
 		PageFactory.initElements(driver, this);
 		this.wait = new WebDriverWait(this.driver, 20);
 	}
-	
+
 	public WebDriver getDriver() {
 		return driver;
 	}
@@ -34,18 +39,17 @@ public class AbstractPage  {
 	public void goTo(String url) {
 		driver.get(url);
 	}
-	
+
 	public void refresh() {
 		driver.navigate().refresh();
 	}
-
 
 	public void waitForElementsByCssLocator(String cssLocator) {
 		(new WebDriverWait(driver, 20))
 				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(cssLocator)));
 	}
-	
-	//TO BE MOVED
+
+	// TO BE MOVED
 	public <T> void verifyListOfObjects(List<T> list1, List<T> list2, String matchElement)
 			throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
@@ -74,7 +78,7 @@ public class AbstractPage  {
 		}
 	}
 
-	//TO BE MOVED
+	// TO BE MOVED
 	protected <T> T getObjectByMatchingElement(List<T> list, String matchElement, String matchValue)
 			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		for (T obj : list) {
@@ -87,7 +91,7 @@ public class AbstractPage  {
 		return null;
 	}
 
-	//TO BE MOVED	
+	// TO BE MOVED
 	public <T> void verifyObjects(T obj1, T obj2)
 			throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
@@ -121,7 +125,7 @@ public class AbstractPage  {
 			}
 		}
 	}
-	
+
 	protected void waitForElementToAppear(By locator) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 	}
@@ -133,7 +137,7 @@ public class AbstractPage  {
 	protected void waitForTextToDisappear(By locator, String text) {
 		wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(locator, text)));
 	}
-	
+
 	protected void waitForElementToBeClickable(WebElement locator) {
 		wait.until(ExpectedConditions.elementToBeClickable(locator));
 	}
