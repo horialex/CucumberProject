@@ -16,7 +16,10 @@ import constants.SetupConstants;
 @Singleton
 public class DriverManager {
 
-	private WebDriver driver = null;
+
+	protected ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+	
+	
 	private String browser = System.getProperty("browser");
 	private String host = EnvironmentConstants.BASE_URL;
 
@@ -26,17 +29,20 @@ public class DriverManager {
 
 		if (browser.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", SetupConstants.FIREFOX_DRIVER_PATH);
-			driver = new FirefoxDriver();
+			//driver = new FirefoxDriver();
+			driver.set(new FirefoxDriver());
 		} else if (browser.equalsIgnoreCase("chrome")) {
 			System.setProperty("webdriver.chrome.driver", SetupConstants.CHROME_DRIVER_PATH);
-			driver = new ChromeDriver();
+			//driver = new ChromeDriver();
+			driver.set(new ChromeDriver());
+
 		} else {
 			throw new Exception("Unsupported browser type, we don't use IE! or other browser");
 		}
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
+		driver.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.get().manage().window().maximize();
 		System.out.println("Oppening URL [" + host + "] ");
-		driver.get(host);
+		getDriver().get(host);
 
 		System.out.println(
 				"\n\n\n==========================================================================================="
@@ -44,22 +50,22 @@ public class DriverManager {
 
 	}
 
-	public WebDriver getWebDriver() {
-		return driver;
+	public WebDriver getDriver() {
+		return driver.get();
 	}
 
 	public void closeDriver() {
 		System.out.println(
 				"\n\n\n==========================================================================================="
 						+ "\n ============================= TEST ENDED - Closing browser ==============================\n");
-		driver.close();
-		driver.quit();
+		getDriver().close();
+		getDriver().quit();
 	}
 
 	public void clearCookies() {
-		Set<Cookie> cookies = getWebDriver().manage().getCookies();
+		Set<Cookie> cookies = getDriver().manage().getCookies();
 		for (Cookie cookie : cookies) {
-			getWebDriver().manage().deleteCookie(cookie);
+			getDriver().manage().deleteCookie(cookie);
 		}
 	}
 

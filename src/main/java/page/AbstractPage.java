@@ -27,7 +27,7 @@ public class AbstractPage {
 
 	public AbstractPage() {
 		AppInjector.getInjector().injectMembers(this);
-		this.driver = driverManager.getWebDriver();
+		this.driver = driverManager.getDriver();
 		PageFactory.initElements(driver, this);
 		this.wait = new WebDriverWait(this.driver, 20);
 	}

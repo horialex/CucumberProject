@@ -29,7 +29,7 @@ public class Hooks {
 	public void tearDown(Scenario scenario) {
 		if (scenario.isFailed()) {
 			try {
-				final byte[] screenshot = ((TakesScreenshot) driverManager.getWebDriver())
+				final byte[] screenshot = ((TakesScreenshot) driverManager.getDriver())
 						.getScreenshotAs(OutputType.BYTES);
 				scenario.embed(screenshot, "image/png");
 				scenario.write("Scenario failed");
@@ -38,7 +38,7 @@ public class Hooks {
 			}
 		} else {
 			try {
-				scenario.embed(((TakesScreenshot) driverManager.getWebDriver()).getScreenshotAs(OutputType.BYTES),
+				scenario.embed(((TakesScreenshot) driverManager.getDriver()).getScreenshotAs(OutputType.BYTES),
 						"image/png");
 				scenario.write("Scenario passed");
 			} catch (Exception e) {
