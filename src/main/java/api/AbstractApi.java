@@ -16,17 +16,12 @@ import constants.ApiConstants;
 
 public class AbstractApi {
 
-
-	private static final long serialVersionUID = 1L;
 	private static RequestSpecification tokenSpec = null;
 	public static Map<String, String> extraHeaders = new HashMap<String, String>();
 
 	public static RequestSpecification getSpecWithExtraHeaders() {
-		tokenSpec = new RequestSpecBuilder()
-					.setContentType(ContentType.JSON)
-					.setBaseUri(ApiConstants.BASE_URI)
-					.addHeader("User-Agent-WW", "web_agent")
-					.addHeaders(extraHeaders).build();
+		tokenSpec = new RequestSpecBuilder().setContentType(ContentType.JSON).setBaseUri(ApiConstants.BASE_URI)
+				.addHeader("User-Agent-WW", "web_agent").addHeaders(extraHeaders).build();
 		return tokenSpec;
 	}
 

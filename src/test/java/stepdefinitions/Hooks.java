@@ -3,10 +3,7 @@ package stepdefinitions;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
-import com.google.inject.Inject;
-
 import config.DriverManager;
-import injector.AppInjector;
 import io.cucumber.core.api.Scenario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

@@ -12,10 +12,6 @@ import tools.utils.FieldGenerator;
 
 public class ItemFactory {
 
-//	public ItemFactory() {
-//		AppInjector.getInjector().injectMembers(this);
-//	}
-	
 	@Inject
 	CategoryAbstractDao categoryAbstractDao;
 	
